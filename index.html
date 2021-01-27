@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./static/favicon.png" >
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0，user-scalable=no,minimum-scale=1,maximum-scale=1">
+    <link rel="shortcut icon" href="./static/favicon.png">
     <title>博客（大概</title>
 </head>
+
 <body>
     <h1>你好</h1>
     <h1>这里是测试博客</h1>
     <h1>网址头像是星奏</h1>
+    <button size="mini">点</button>
 </body>
+<script src="./libs/better-scroll.js"></script>
+<script src="./libs/zepto.js"></script>
+<script src="./libs/template-web.js"></script>
+<script src="./libs/swiper.min.js"></script>
 <script>
-    console.log("这里能用js吗");
+    $(function () {
+        $(button).onclick(function () {
+            console.log("这里能用js吗");
+        })
+    })
 </script>
+
 </html>
