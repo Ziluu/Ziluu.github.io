@@ -3,43 +3,42 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./static/favicon.png">
-    <link rel="stylesheet" href="./index.css">
-    <title>博客（大概</title>
+    <title>《vue在github》</title>
+    
 </head>
 
 <body>
-<header>
-    <div>
-        <h1>你好</h1>
-        <h1>这里是测试博客</h1>
-        <h1>网址头像是星奏</h1>
-        <h1>背景为什么用黑色</h1>
-        <h1>因为黑色护眼</h1>
-        <h1>而且还能用粉色字体</h1>
+    <div id="app">
+        <p>{{ foo }}</p>
+        <p>{{ rawHtml }}</p>
+        <!-- 这里的 `foo` 不会更新！ -->
+        <button v-on:click="lalala">是真心话哦?</button>
     </div>
-    <nav>
-        <ol>
-            <li><a href="#">目录</a></li>
-            <li><a href="#">目录</a></li>
-            <li><a href="#">目录</a></li>
-            <li><a href="#">目录</a></li>
-            <li><a href="#">目录</a></li>
-            <li><a href="#">目录</a></li>
-        </ol>
-    </nav>
-</header>
+
 </body>
-<script src="./libs/better-scroll.js"></script>
-<script src="./libs/zepto.js"></script>
-<script src="./libs/template-web.js"></script>
-<script src="./libs/swiper.min.js"></script>
+<script src="./lib/vue.js"></script>
 <script>
-    $(function () {
-        // $("button").click(function () {
-        //     console.log("这里能用js吗");
-        // })
+    var obj = {
+        foo: 'vue真好玩',
+        rawHtml:'我爱vue',
+        lalala:function (e){
+            this.obj.foo = '学你妈vue'
+            this.obj.rawHtml = 'guna!'
+            e.target.innerHTML='您的🐎死了'
+            console.log(e);
+        },
+        nihao:null
+    }
+
+    // Object.freeze(obj)
+
+    let vm = new Vue({
+        el: '#app',
+        data: obj
     })
+    
 </script>
 
 </html>
