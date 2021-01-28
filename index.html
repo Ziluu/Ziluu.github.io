@@ -5,16 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./static/favicon.png">
+    <link rel="stylesheet" href="./index.css">
     <title>《vue在github》</title>
-    
 </head>
 
 <body>
     <div id="app">
-        <p>{{ foo }}</p>
-        <p>{{ rawHtml }}</p>
+        <h1 class="logo">天蓝色的博客</h1>
+        <ol class="index">
+            <li><a href="#">somebody</a></li>
+            <li><a href="#">anybody</a></li>
+            <li><a href="#">nobody</a></li>
+            <li><a href="#">everybody</a></li>
+        </ol>
+        <!-- <p>{{ foo }}</p> -->
+        <!-- <p>{{ rawHtml }}</p> -->
         <!-- 这里的 `foo` 不会更新！ -->
-        <button v-on:click="lalala">是真心话哦?</button>
+        <!-- <button v-on:click="lalala">是真心话哦?</button> -->
     </div>
 
 </body>
