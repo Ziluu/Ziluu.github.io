@@ -1,0 +1,18 @@
+<template v-if="loginType === 'username'">
+  <label>Username</label>
+  <input placeholder="Enter your username">
+</template>
+<template v-else>
+  <label>Email</label>
+  <input placeholder="Enter your email address">
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>
