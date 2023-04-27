@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绝亚固定队上班表</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="logo">我TM好想被残暴正义号</h1>
+    </header>
+    <main>
+        <div class="warp">
+            <input class="input" type="text" placeholder="接下来做什么">
+            <ul></ul>
+            <div class="footer">
+                <div class="count">0 items left</div>
+                <div class="btns">
+                    <div class="active btn btn1" onclick="selectBtn(1)">all</div>
+                    <div class="btn btn2" onclick="selectBtn(2)">active</div>
+                    <div class="btn btn3" onclick="selectBtn(3)">completed</div>
+                </div>
+                <div class="btn4" onclick="selectBtn(4)">Clear Completed</div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div>Written by Zilu</div>
+    </footer>
+</body>
+
+</html>
+<script>
+    var type = 1
+    var index = 0
+    var todoList = []   //所有的数据
+    // 渲染方法
+    function render(btn) {
+        if (!btn) {
+            btn = type
+        }
+        let ul = document.querySelector('ul')
+        let count = document.querySelector('.count')
+        let todos = []  //要渲染的数据
+
+        //渲染列表方法
+        const renderList = (ul, count, btn) => {
+            type = btn
+            ul.innerHTML = ''
+            todos.forEach(todo => {
+                ul.innerHTML = ul.innerHTML + getTpl(todo.text, todo.index, todo.checked)
+            })
+            count.innerHTML = todos.length + ' items left'
+        }
+
+        switch (btn) {
+            case 1: //全部
+                todos = todoList
+                renderList(ul, count, btn)
+                break;
+            case 2: //活跃
+                todos = todoList.filter(todo => todo.checked === false)
+                renderList(ul, count, btn)
+                break;
+            case 3: //完成
+                todos = todoList.filter(todo => todo.checked === true)
+                renderList(ul, count, btn)
+                break;
+            case 4: //清除完成
+                todoList = todoList.filter(todo => todo.checked === false)
+                todos = todoList
+                render(type)
+                break;
+        }
+    }
+    //TODO 待优化
+    function findIndex(e) {
+        let select_index = e.target.parentNode.attributes[0].value
+        return todoList.findIndex(todo => todo.index == select_index)
+    }
+    // Todo模板
+    function getTpl(text, index, state = false) {
+        let tpl =
+            `<li index=${index } ${state ? "class='selected'" : ''}>`
+            + '<div class="checkbox" onclick=solveTodo()></div>'
+            + '<div class="todo">' + text + '</div>'
+            + '<div class="close" onclick=removeTodo()>×</div>'
+            + '</li>'
+        return tpl
+    }
+    // 点击按钮事件
+    function selectBtn(btn) {
+        btn !== 4 && changeBtn(event.target)
+        render(btn)
+    }
+    // 获取所有相关的元素 移除active类名 再针对点击的按钮新增类名
+    function changeBtn(target) {
+        let btns = document.querySelectorAll('.btn')
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].classList.remove('active');
+        }
+        target.classList.add('active')
+    }
+    // 新增Todo
+    function addTodo(text) {
+        let ul = document.querySelector('ul')
+        let todo = { text: text, checked: false, index: index }
+        ul.innerHTML = ul.innerHTML + getTpl(text, index)
+        todoList.push(todo)
+        index++
+        render()
+    }
+    // 改变Todo状态
+    function solveTodo() {
+        let index = findIndex(event)
+        todoList[index].checked = !todoList[index].checked
+        render()
+    }
+    // 移除Todo
+    function removeTodo() {
+        let count = document.querySelector('.count')
+        let index = findIndex(event)
+        event.target.parentNode.remove()
+        todoList.splice(index, 1)
+        count.innerHTML = todoList.length + ' items left'
+        render()
+    }
+    window.onload = () => {
+        let input = document.querySelector('.input')
+
+        input.addEventListener('keydown', () => {
+            if (event.keyCode === 13 && input.value) {
+                addTodo(input.value)
+                input.value = ''
+            }
+        })
+    }
+</script>
+<style>
+    /* 全局 */
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        width: 600px;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    /* header */
+    header .logo {
+        text-align: center;
+        font-size: 100px;
+        color: rgba(175, 47, 47, 0.4);
+        font-weight: 400;
+        margin: 20px auto;
+    }
+
+    /* main */
+    main .warp {
+        box-shadow: 0 0 5px #666;
+    }
+
+    main .input {
+        width: calc(100% - 52px);
+        border: none;
+        font-size: 24px;
+        outline: none;
+        padding: 16px 16px 16px 36px;
+        box-shadow: inset 0 -2px 1px rgb(0 0 0 / 3%);
+        background-color: #fff;
+    }
+
+    main li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 16px 16px 36px;
+        box-shadow: inset 0 -2px 1px rgb(0 0 0 / 3%);
+    }
+
+    main li:hover .close {
+        display: block;
+    }
+
+    main .checkbox {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #666;
+        border-radius: 50%;
+    }
+
+    main .selected .todo {
+        text-decoration: line-through;
+        opacity: 0.3;
+    }
+
+    main .selected .checkbox {
+        background-color: pink;
+    }
+
+    main .todo {
+        max-width: 548px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-height: 30px;
+        line-height: 30px;
+        flex: 1;
+        margin-left: 10px;
+    }
+
+    main .close {
+        display: none;
+        font-size: 23px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    main .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    main .count {
+        font-size: 14px;
+        color: #333;
+    }
+
+    main .btns {
+        display: flex;
+        align-items: center;
+    }
+
+    main .btn {
+        padding: 5px;
+        margin-right: 10px;
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+    main .btn4 {
+        font-size: 14px;
+        color: #333;
+        cursor: pointer;
+    }
+
+    main .active {
+        border-radius: 5px;
+        border-color: rgba(175, 47, 47, 0.4);
+    }
+
+    /* footer */
+    footer div {
+        margin-top: 40px;
+        text-align: center;
+        color: #bfbfbf;
+        font-size: 10px;
+        text-shadow: 0 1px 0 #fff;
+    }
+</style>
